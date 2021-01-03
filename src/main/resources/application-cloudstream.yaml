@@ -1,0 +1,31 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        consumeMessage-in-0:
+          destination: ${topic.product}
+          binder: kafka
+          group: product-consumer-group
+        produceMessage-out-0:
+          destination: ${topic.product}
+          binder: kafka
+        enrichAndSendToRabbit-in-0:
+          destination: ${topic.product}
+          binder: kafka
+          group: product-enrich-group
+        enrichAndSendToRabbit-out-0:
+          destination: inventory.message.exchange
+          requiredGroups: inventory_group
+          binder: rabbit
+      rabbit:
+        bindings:
+          enrichAndSendToRabbit-out-0:
+            producer:
+              bindingRoutingKey: inventory_item_publication
+              routing-key-expression: "'inventory_item_publication'"
+              exchangeAutoDelete: false
+              exchangeType: direct
+      kafka:
+        bindings:
+          consumeMessage-in-0:
+            enableDlq: true

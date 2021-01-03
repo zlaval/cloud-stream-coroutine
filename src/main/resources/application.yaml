@@ -1,0 +1,46 @@
+topic:
+  product: com-zlrx-product
+
+management:
+  server:
+    port: 9000
+server:
+  port: 8000
+spring:
+  profiles:
+    include:
+      - cloudstream
+  data:
+    mongodb:
+      uri: mongodb://admin:admin@localhost:27017/admin
+  application:
+    name: reactive-cloud-stream
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      properties:
+        spring.json.trusted.packages: "*"
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin
+  cloud:
+    stream:
+      function:
+        definition: consumeMessage;produceMessage;enrichAndSendToRabbit
+      default-binder: kafka
+      kafka:
+        binder:
+          auto-create-topics: true
+          consumer-properties:
+            key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+            value.deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+            max.poll.records: 10
+            spring.json.trusted.packages: "*"
+          producer-properties:
+            key.serializer: org.apache.kafka.common.serialization.StringSerializer
+            value.serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+
+
