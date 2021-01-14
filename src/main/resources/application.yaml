@@ -1,11 +1,13 @@
 topic:
-  product: com-zlrx-product
+  product: product-topic
+  multiName: multi-name-topic
+  multiQuantity: multi-quantity-topic
 
 management:
   server:
     port: 9000
 server:
-  port: 8000
+  port: 8080
 spring:
   profiles:
     include:
@@ -28,7 +30,7 @@ spring:
   cloud:
     stream:
       function:
-        definition: consumeMessage;produceMessage;enrichAndSendToRabbit
+        definition: consumeMessage;produceMessage;enrichAndSendToRabbit;multiInMultiOut
       default-binder: kafka
       kafka:
         binder:

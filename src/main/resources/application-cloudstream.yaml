@@ -17,6 +17,18 @@ spring:
           destination: inventory.message.exchange
           requiredGroups: inventory_group
           binder: rabbit
+        multiInMultiOut-in-0:
+          group: multi_message_group
+          destination: inventory.message.exchange
+          binder: rabbit
+        multiInMultiOut-in-1:
+          destination: ${topic.product}
+          binder: kafka
+          group: product-multimessage-group
+        multiInMultiOut-out-0:
+          destination: ${topic.multiName}
+        multiInMultiOut-out-1:
+          destination: ${topic.multiQuantity}
       rabbit:
         bindings:
           enrichAndSendToRabbit-out-0:
@@ -24,6 +36,10 @@ spring:
               bindingRoutingKey: inventory_item_publication
               routing-key-expression: "'inventory_item_publication'"
               exchangeAutoDelete: false
+              exchangeType: direct
+          multiInMultiOut-in-0:
+            consumer:
+              bindingRoutingKey: inventory_item_publication
               exchangeType: direct
       kafka:
         bindings:

@@ -46,3 +46,25 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+  kafka-rest-proxy:
+    image: confluentinc/cp-kafka-rest:5.5.3
+    container_name: kafka-rest-proxy
+    depends_on:
+      - schema-registry
+    environment:
+      KAFKA_REST_LISTENERS: http://0.0.0.0:8082/
+      KAFKA_REST_SCHEMA_REGISTRY_URL: http://schema-registry:8081/
+      KAFKA_REST_HOST_NAME: kafka-rest-proxy
+      KAFKA_REST_ZOOKEEPER_CONNECT: zookeeper:2181
+    ports:
+      - 8082:8082
+  kafka-topics-ui:
+    image: landoop/kafka-topics-ui:0.9.4
+    container_name: kafka-topics-ui
+    depends_on:
+      - kafka-rest-proxy
+    environment:
+      KAFKA_REST_PROXY_URL: "http://kafka-rest-proxy:8082/"
+      PROXY: "true"
+    ports:
+      - 8098:8000
