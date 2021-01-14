@@ -49,8 +49,6 @@ services:
   kafka-rest-proxy:
     image: confluentinc/cp-kafka-rest:5.5.3
     container_name: kafka-rest-proxy
-    depends_on:
-      - schema-registry
     environment:
       KAFKA_REST_LISTENERS: http://0.0.0.0:8082/
       KAFKA_REST_SCHEMA_REGISTRY_URL: http://schema-registry:8081/

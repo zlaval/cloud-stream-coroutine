@@ -34,6 +34,4 @@ class MultiMessageStream {
             quantityOutMessage
         )
     }
-
 }
-
