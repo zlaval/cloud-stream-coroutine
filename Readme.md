@@ -1,4 +1,4 @@
-## How to use
+## How to run
 
 ---
 
@@ -11,11 +11,11 @@
 The `containers` folder contains a docker compose file. It can be started with `docker-compose up` command and creates
 the necessary environment.
 
-Then you can start the application and send a message to it over the REST interface.
+Then you can start the application and send messages to it via the REST interface.
 
 POST `http://localhost:8080/api/v1/produce-message`
 
-The message format must be JSON.
+The format of the message body must be JSON.
 
 ```
 {
@@ -24,7 +24,9 @@ The message format must be JSON.
 }
 ```
 
-There are a Kafka and RabbitMq UI to watch the messages.
+There are a Kafka and a RabbitMq UI in the compose to watch the messages.
+
+---
 
 ### Kafka
 
@@ -36,14 +38,17 @@ There are a Kafka and RabbitMq UI to watch the messages.
 
 ---
 
-The compose file also contains a MongoDb image. You can connect to it wia command line or Compass on localhost at
-port `27017`.
+The compose file also contains a MongoDb image. You can connect to it via command line or Compass.
+
+`localhost:27017`
+
+---
 
 **RabbitMq and Mongo authentication data**
 
-> username: admin
->
-> password: admin
+`username: admin`
+
+`password: admin`
 
 
 

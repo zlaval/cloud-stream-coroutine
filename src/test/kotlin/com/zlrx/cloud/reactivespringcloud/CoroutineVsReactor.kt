@@ -10,6 +10,7 @@ import reactor.core.publisher.Mono
 import reactor.kotlin.core.util.function.component1
 import reactor.kotlin.core.util.function.component2
 import reactor.test.StepVerifier
+import reactor.util.function.Tuples
 import java.time.Duration
 
 data class Vehicle(
@@ -57,10 +58,13 @@ class CoroutineVsReactor {
 
     @Test
     fun `reactor example`() {
-        val pipeline = stream.map { Mapper.vehicleToCar(it) }
-            .concatMap { ReactorDatabase.saveData(it) }
-            .zipWith(ReactiveWebService.loadFromWeb())
-            .map { (car, type) -> Mapper.carToDetailedCar(car, type) }
+        val pipeline =
+            stream.map { Mapper.vehicleToCar(it) }
+                .concatMap { ReactorDatabase.saveData(it) }
+                .flatMap { car -> ReactiveWebService.loadFromWeb().map { Tuples.of(car, it) } }
+                .map { (car, type) ->
+                    Mapper.carToDetailedCar(car, type)
+                }
 
         StepVerifier.create(pipeline)
             .expectSubscription()
