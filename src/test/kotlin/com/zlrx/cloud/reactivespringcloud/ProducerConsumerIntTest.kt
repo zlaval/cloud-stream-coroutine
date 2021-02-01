@@ -27,7 +27,7 @@ class ProducerConsumerIntTest : TestcontainersBase() {
     }
 
     @Test
-    fun `producer's message should consumed and saved into database`() = runBlocking {
+    fun `producer's message should be consumed and saved into database`() = runBlocking {
         val message = ProductMessage("Test product", 100)
         producerService.sendMessage(message)
 
