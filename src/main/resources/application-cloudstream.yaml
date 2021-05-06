@@ -42,6 +42,9 @@ spring:
               bindingRoutingKey: inventory_item_publication
               exchangeType: direct
       kafka:
+        default:
+          producer:
+            recordMetadataChannel: producerMetadata
         bindings:
           consumeMessage-in-0:
             enableDlq: true
